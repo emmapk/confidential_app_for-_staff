@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Page</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .required {
+      color: red;
+      font-weight: bold;
+    }
+
+    .form-group input:required {
+      border: 2px solid red;
+    }
+
+    label.required {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="/register" method="POST" class="form" onsubmit="return validateForm()">
+      <h1>Register</h1>
+
+      <!-- Full Name -->
+      <div class="form-group">
+        <label for="fullname" class="required">Full Name <span class="required">*</span>:</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+      </div>
+
+      <!-- Email Address -->
+      <div class="form-group">
+        <label for="email" class="required">Email Address <span class="required">*</span>:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password" class="required">Password <span class="required">*</span>:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required minlength="8">
+      </div>
+
+      <!-- Address -->
+      <div class="form-group">
+        <label for="address" class="required">Address <span class="required">*</span>:</label>
+        <input type="text" id="address" name="address" placeholder="Enter your address" required>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phoneNumber" class="required">Phone Number <span class="required">*</span>:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required pattern="^\+234\d{10}$">
+      </div>
+
+      <!-- Next of Kin -->
+      <div class="form-group">
+        <label for="nextOfKin" class="required">Next of Kin <span class="required">*</span>:</label>
+        <input type="text" id="nextOfKin" name="nextOfKin" placeholder="Enter next of kin name" required>
+      </div>
+
+      <!-- Next of Kin Phone Number -->
+      <div class="form-group">
+        <label for="nextOfKinPhoneNumber" class="required">Next of Kin Phone Number <span class="required">*</span>:</label>
+        <input type="tel" id="nextOfKinPhoneNumber" name="nextOfKinPhoneNumber" placeholder="Enter next of kin phone number" required pattern="^\+234\d{10}$">
+      </div>
+
+      <!-- Account Number -->
+      <div class="form-group">
+        <label for="accountNumber" class="required">Account Number <span class="required">*</span>:</label>
+        <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter account number" required pattern="^\d{10}$">
+      </div>
+
+      <!-- Account Name -->
+      <div class="form-group">
+        <label for="accountName" class="required">Account Name <span class="required">*</span>:</label>
+        <input type="text" id="accountName" name="accountName" placeholder="Enter account name" required>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+  </div>
+
+  <script>
+    function validateForm() {
+      const phonePattern = /^\+234\d{10}$/;
+      const accountPattern = /^\d{10}$/;
+
+      const phoneNumber = document.getElementById('phoneNumber').value;
+      const nextOfKinPhone = document.getElementById('nextOfKinPhoneNumber').value;
+      const accountNumber = document.getElementById('accountNumber').value;
+
+      if (!phonePattern.test(phoneNumber)) {
+        alert("Please enter a valid Nigerian phone number.");
+        return false;
+      }
+
+      if (!phonePattern.test(nextOfKinPhone)) {
+        alert("Please enter a valid Next of Kin phone number.");
+        return false;
+      }
+
+      if (!accountPattern.test(accountNumber)) {
+        alert("Account number must be exactly 10 digits.");
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</body>
+</html>
