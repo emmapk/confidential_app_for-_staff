@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+
+   
     fullname: {
         type: String,
         required: true,
@@ -32,9 +34,20 @@ const userSchema = new mongoose.Schema({
     accountName: {
         type: String,
     },
+    imageUrl: {
+        type: String,
+    },
     password: {
         type: String,
     },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpire: {
+        type:Date
+    },
+    imagePath: { type: String },
+    
     createdAt: {
         type: Date,
         default: Date.now,

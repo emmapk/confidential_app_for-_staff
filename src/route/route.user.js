@@ -1,16 +1,39 @@
 import express from "express";
-import { renderHomePage, staffRegisterPage, loginPage, login } from "../controller/controller.js";
+import {
+  renderHomePage,
+  staffRegisterPage,
+  loginPage,
+  login,
+  forgot,
+  reset,
+  forgotPassword,
+  resetPassword,
+  updateUser,
+  renderUpdatePage,
+  delete2,
+  delete1,
+  uploadFile
+} from "../controller/controller.js";
+import upload from "../controller/multer.js"
 
 const router = express.Router();
 
-router.get("/homePage", renderHomePage);
+// ------------------ Render Pages ------------------ //
+router.get("/", renderHomePage); 
+router.get("/login", loginPage); 
+router.get("/forgot-password", forgot);
+router.get("/reset-password/:token", reset); 
+router.get("/update-user/:email", renderUpdatePage); 
+router.get("/delete-user/:email", delete2);
 
-router.get("/register", staffRegisterPage);
+// Register and upload file together
+router.post("/register", upload.single("file"), staffRegisterPage); 
+router.post("/login", login); 
+router.post("/forgot-password", forgotPassword); 
+router.post("/reset-password/:token", resetPassword); 
+router.post("/update-user/:email", updateUser); 
+router.post("/delete-user/:email", delete1); 
 
-router.post("/register", staffRegisterPage);
 
-
-router.get("/login", loginPage)
-router.post("/login", login)
 
 export default router;
