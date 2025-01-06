@@ -1,4 +1,4 @@
-<form action="/update-user/<%= user.email %>" method="POST">
+<form action="/update-user/<%= user.email %>" method="POST" enctype="multipart/form-data">
   <label for="fullname">Full Name</label>
   <input type="text" id="fullname" name="fullname" value="<%= user.fullname %>" required>
 
@@ -19,6 +19,10 @@
 
   <label for="nextOfKinPhoneNumber">Next of Kin Phone Number</label>
   <input type="text" id="nextOfKinPhoneNumber" name="nextOfKinPhoneNumber" value="<%= user.nextOfKinPhoneNumber %>" required>
+
+  <!-- Image Upload Section -->
+  <label for="image">Update Profile Picture</label>
+  <input type="file" name="image" id="image" accept="image/*" />
 
   <button type="submit">Update</button>
 </form>

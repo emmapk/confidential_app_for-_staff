@@ -66,9 +66,9 @@
 
         <!-- Displaying User's Profile Image -->
         <% if (user.image) { %>
-            <img src="/uploads/<%= user.image %>" alt="Profile Image" class="profile-image">
+            <img src="/uploads/<%= user.image.split('/').pop() %>" alt="Profile Image" class="profile-image">
         <% } else { %>
-            <img src="/uploads/default-avatar.png" alt="Default Avatar" class="profile-image">
+            <img src="/images/default-profile.jpg" alt="Default Profile Image" class="profile-image">
         <% } %>
 
         <p>Address: <%= user.address %></p>

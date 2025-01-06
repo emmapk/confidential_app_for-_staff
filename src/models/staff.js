@@ -34,9 +34,7 @@ const userSchema = new mongoose.Schema({
     accountName: {
         type: String,
     },
-    imageUrl: {
-        type: String,
-    },
+  
     password: {
         type: String,
     },
@@ -46,7 +44,7 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpire: {
         type:Date
     },
-    imagePath: { type: String },
+    image: { type: String, required: true },
     
     createdAt: {
         type: Date,

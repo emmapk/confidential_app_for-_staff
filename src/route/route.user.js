@@ -12,9 +12,9 @@ import {
   renderUpdatePage,
   delete2,
   delete1,
-  uploadFile
+  uploadFile,
 } from "../controller/controller.js";
-import upload from "../controller/multer.js"
+import upload from "../controller/multer.js";
 
 const router = express.Router();
 
@@ -27,12 +27,13 @@ router.get("/update-user/:email", renderUpdatePage);
 router.get("/delete-user/:email", delete2);
 
 // Register and upload file together
-router.post("/register", upload.single("file"), staffRegisterPage); 
+router.post("/register", upload.single("image"), staffRegisterPage); 
 router.post("/login", login); 
 router.post("/forgot-password", forgotPassword); 
 router.post("/reset-password/:token", resetPassword); 
-router.post("/update-user/:email", updateUser); 
+router.post("/update-user/:email", upload.single("image"), updateUser);
 router.post("/delete-user/:email", delete1); 
+
 
 
 

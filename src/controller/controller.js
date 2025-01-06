@@ -84,27 +84,27 @@ const reset = async (req, res) => {
 
 
 
+
 // Controller to handle file upload
 const uploadFile = (req, res) => {
-  upload.single("file")(req, res, (err) => {
-    if (err) {
-      return res.status(400).json({ error: err.message });
-    }
-
+  try {
     if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+      return res.status(400).send("No file uploaded.");
     }
 
-    // File uploaded successfully
-    res.status(200).json({
-      message: "File uploaded successfully",
-      file: req.file,
-    });
-  });
+    // File details
+    const uploadedFile = req.file;
+
+    // Process the uploaded file if needed
+    console.log("Uploaded file:", uploadedFile);
+
+    return res.status(200).render("auth/success", { file: uploadedFile });
+  } catch (error) {
+    return res.status(500).send("Error occurred while uploading the file.");
+  }
 };
 
 // Registration Function
-
 const staffRegisterPage = async (req, res) => {
   try {
     const {
@@ -117,12 +117,14 @@ const staffRegisterPage = async (req, res) => {
       accountNumber,
       accountName,
       nextOfKinPhoneNumber,
-      imagePath
-      
     } = req.body;
-    
 
-    
+    const image = req.file;
+
+    // Validate image
+    if (!image) {
+      return res.status(400).send({ message: "Image is missing" });
+    }
 
     // Validate required fields
     const missingFields = [];
@@ -143,7 +145,29 @@ const staffRegisterPage = async (req, res) => {
       });
     }
 
-    // Validate email and password
+    // Hash the password (assuming a hashing function is available)
+    // const hashedPassword = await hashPassword(password);
+
+     // Hash the password
+     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = new User({
+      fullname,
+      email,
+      address,
+      nextOfKin,
+      password: hashedPassword,
+      phoneNumber,
+      accountNumber,
+      accountName,
+      nextOfKinPhoneNumber,
+      image: image.path,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+        // Validate email and password
     isStrongPassword(password);
     isValidEmail(email);
 
@@ -166,24 +190,9 @@ const staffRegisterPage = async (req, res) => {
       throw new ApiError(401, "Account number must be exactly 10 digits");
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+   
 
-    // Create and save the new user
-    const user = new User({
-      fullname,
-      email,
-      address,
-      nextOfKin,
-      password: hashedPassword,
-      phoneNumber,
-      nextOfKinPhoneNumber,
-      accountNumber,
-      accountName,
-      imagePath: req.file ? req.file.filename : ""
-    });
-
-    await user.save();
+  
 
     // Send welcome email
     await sendWelcomeEmail(email, fullname);
@@ -345,6 +354,11 @@ const updateUser = async (req, res) => {
       nextOfKinPhoneNumber,
     };
 
+    if (req.file) {
+      const imageUrl = `/uploads/${req.file.filename}`;  
+      updateData.image = imageUrl;  
+    }
+
     // Log the data for debugging
     console.log("Update data:", updateData);
     
@@ -403,22 +417,6 @@ const delete1 = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Export Functions
 export {
   renderHomePage,
@@ -433,5 +431,5 @@ export {
   renderUpdatePage,
   delete2,
   delete1,
-  uploadFile
+  uploadFile,
 };
